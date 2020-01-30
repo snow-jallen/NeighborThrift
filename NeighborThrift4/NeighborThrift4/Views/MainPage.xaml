@@ -4,7 +4,7 @@
              x:Class="NeighborThrift4.Views.MainPage"
              Title="{Binding Title}">
 
-    <StackLayout HorizontalOptions="CenterAndExpand">
+    <StackLayout Margin="5">
         <Label Text="Enter some text" />
         <Entry Text="{Binding Obj1}" />
         <Label Text="Select a destination" />
