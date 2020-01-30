@@ -4,6 +4,7 @@ using NeighborThrift4.ViewModels;
 using NeighborThrift4.Views;
 using NUnit.Framework;
 using Prism.Navigation;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Mocks;
@@ -23,12 +24,6 @@ namespace NeighborThrift4.Tests
         [Test]
         public void Test1()
         {
-
-            Xamarin.Forms.Mocks.MockForms.OpenUriAction = (uri) =>
-            {
-
-            };
-
             var navServiceMock = new Mock<INavigationService>();
 
             int numberOfCalls = 0;
@@ -44,10 +39,11 @@ namespace NeighborThrift4.Tests
 
             var mainPage = new MainPageViewModel(navServiceMock.Object);
             mainPage.Obj1 = "this is a test";
+			mainPage.SelectedDestination = mainPage.Destinations[2];
             mainPage.Navigate.Execute(this);
 
             Assert.AreEqual(1, numberOfCalls);
-            Assert.AreEqual(nameof(DetailPage), actualPageName);
+            Assert.AreEqual(nameof(ThirdPage), actualPageName);
             Assert.AreEqual("this is a test", actualNavParams["text"]);
         }
     }

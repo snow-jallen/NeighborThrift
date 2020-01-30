@@ -31,6 +31,8 @@ namespace NeighborThrift4
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<DetailPage, DetailPageViewModel>();
-        }
+			containerRegistry.RegisterForNavigation<SecondPage, SecondPageViewModel>();
+			containerRegistry.RegisterForNavigation<ThirdPage, ThirdPageViewModel>();
+		}
     }
 }

@@ -4,10 +4,14 @@
              x:Class="NeighborThrift4.Views.MainPage"
              Title="{Binding Title}">
 
-    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+    <StackLayout HorizontalOptions="CenterAndExpand">
         <Label Text="Enter some text" />
         <Entry Text="{Binding Obj1}" />
-        <Button Text="Navigate" Command="{Binding Navigate}" />
+        <Label Text="Select a destination" />
+        <Picker ItemsSource="{Binding Destinations}"
+                SelectedItem="{Binding SelectedDestination}" />
+        <Button Text="Navigate"
+                Command="{Binding Navigate}" />
     </StackLayout>
 
 </ContentPage>

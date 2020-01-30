@@ -11,27 +11,36 @@ using Xamarin.Forms;
 
 namespace NeighborThrift4.ViewModels
 {
-    public class MainPageViewModel : ViewModelBase
-    {
-        public MainPageViewModel(INavigationService navigationService)
-            : base(navigationService)
-        {
-            Title = "Main Page";
-        }
+	public class MainPageViewModel : ViewModelBase
+	{
+		public MainPageViewModel(INavigationService navigationService)
+			: base(navigationService)
+		{
+			Title = "Main Page";
+			Destinations = new List<string>(new[]
+			{
+				nameof(DetailPage),
+				nameof(SecondPage),
+				nameof(ThirdPage)
+			});
+		}
 
-        private string obj1;
-        public string Obj1
-        {
-            get => obj1;
-            set { SetProperty(ref obj1, value); }
-        }
+		public List<string> Destinations { get; private set; }
+		public string SelectedDestination { get; set; }
 
-        private Command navigate;
-        public Command Navigate => navigate ?? (navigate = new Command(async () =>
-        {
-            NavigationParameters parameters = new NavigationParameters();
-            parameters.Add("text", Obj1);
-            await TestableNavigation.TestableNavigateAsync(NavigationService, nameof(DetailPage), parameters, false, true).ConfigureAwait(false);
-        }));
-    }
+		private string obj1;
+		public string Obj1
+		{
+			get => obj1;
+			set { SetProperty(ref obj1, value); }
+		}
+
+		private Command navigate;
+		public Command Navigate => navigate ?? (navigate = new Command(async () =>
+		{
+			NavigationParameters parameters = new NavigationParameters();
+			parameters.Add("text", Obj1);
+			await TestableNavigation.TestableNavigateAsync(NavigationService, SelectedDestination, parameters, false, true).ConfigureAwait(false);
+		}));
+	}
 }
