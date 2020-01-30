@@ -1,4 +1,5 @@
-﻿using NeighborThrift4.Views;
+﻿using NeighborThrift4.Services;
+using NeighborThrift4.Views;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -46,16 +47,16 @@ namespace NeighborThrift4.ViewModels
         //======================================================================
         private Command navigate;
 
-
         // => means an auto-generated getter.
         // e.g. public int MyNum => 5;
-        
+
         // ?? is null coalescing operator, if left hand side is not null return that.  Otherwise return right hand side.
         public Command Navigate => navigate ?? (navigate = new Command(async () =>
         {
             NavigationParameters parameters = new NavigationParameters();
             parameters.Add("text", Obj1);
-            await NavigationService.NavigateAsync(nameof(NeighborThrift4.Views.DetailPage), parameters);
+            //await NavigationService.NavigateAsync(nameof(DetailPage), parameters);
+            await TestableNavigation.TestableNavigateAsync(NavigationService, nameof(DetailPage), parameters, false, true).ConfigureAwait(false);
         }));
     }
 }
