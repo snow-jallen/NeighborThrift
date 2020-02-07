@@ -4,6 +4,7 @@ using NeighborThrift4.ViewModels;
 using NeighborThrift4.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using NeighborThrift4.Services;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace NeighborThrift4
@@ -33,6 +34,7 @@ namespace NeighborThrift4
             containerRegistry.RegisterForNavigation<DetailPage, DetailPageViewModel>();
 			containerRegistry.RegisterForNavigation<SecondPage, SecondPageViewModel>();
 			containerRegistry.RegisterForNavigation<ThirdPage, ThirdPageViewModel>();
+			containerRegistry.Register<IDataService, SqliteDataService>();
 		}
     }
 }

@@ -1,4 +1,5 @@
-﻿using NeighborThrift4.Services;
+﻿using NeighborThrift4.Data;
+using NeighborThrift4.Services;
 using NeighborThrift4.Views;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -14,7 +15,7 @@ namespace NeighborThrift4.ViewModels
 {
 	public class MainPageViewModel : ViewModelBase
 	{
-		public MainPageViewModel(INavigationService navigationService, IPageDialogService pageDialogService)
+		public MainPageViewModel(INavigationService navigationService, IPageDialogService pageDialogService, IDataService dataService)
 			: base(navigationService)
 		{
 			Title = "Main Page";
@@ -25,6 +26,9 @@ namespace NeighborThrift4.ViewModels
 				nameof(ThirdPage)
 			});
 			_pageDialogService = pageDialogService ?? throw new ArgumentNullException(nameof(pageDialogService));
+			_dataService = dataService ?? throw new ArgumentNullException(nameof(dataService));
+
+			refresh();
 		}
 
 		public override async void OnNavigatedTo(INavigationParameters parameters)
@@ -38,6 +42,32 @@ namespace NeighborThrift4.ViewModels
 			}
 		}
 
+		private string newDonorName;
+		public string NewDonorName
+		{
+			get => newDonorName;
+			set { SetProperty(ref newDonorName, value); }
+		}
+
+		private Command addDonorCommand;
+		public Command AddDonorCommand => addDonorCommand ?? (addDonorCommand = new Command(() =>
+		{
+			var donor = new Donor()
+			{
+				Name = NewDonorName
+			};
+
+			_dataService.AddDonor(donor);
+			refresh();
+		}));
+
+		private void refresh()
+		{
+			Donors = _dataService.GetDonors();
+		}
+
+		public IEnumerable<Donor> Donors { get; set; }
+
 		public List<string> Destinations { get; private set; }
 		public string SelectedDestination { get; set; }
 
@@ -50,6 +80,7 @@ namespace NeighborThrift4.ViewModels
 
 		private Command navigate;
 		readonly IPageDialogService _pageDialogService;
+		readonly IDataService _dataService;
 
 		public Command Navigate => navigate ?? (navigate = new Command(async () =>
 		{
