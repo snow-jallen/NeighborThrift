@@ -15,9 +15,7 @@ namespace NeighborThrift4.Data
 		public string Gender { get; set; }
 		[NotNull]
 		public decimal Price { get; set; }
-		//public DateTime Arrived { get; set; }
-		
-		
+
 		[ManyToOne]
 		public Donor DonatedBy { get; set; }
 

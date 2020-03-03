@@ -7,6 +7,7 @@ using Prism.Navigation;
 using Prism.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using Xamarin.Forms;
@@ -15,7 +16,7 @@ namespace NeighborThrift4.ViewModels
 {
 	public class MainPageViewModel : ViewModelBase
 	{
-		public MainPageViewModel(INavigationService navigationService, IPageDialogService pageDialogService, IDataService dataService)
+		public MainPageViewModel(INavigationService navigationService, IPageDialogService pageDialogService, IDataService dataService, INotificationService notificationService, IPhotoPickerService photoPicker)
 			: base(navigationService)
 		{
 			Title = "Main Page";
@@ -27,7 +28,8 @@ namespace NeighborThrift4.ViewModels
 			});
 			_pageDialogService = pageDialogService ?? throw new ArgumentNullException(nameof(pageDialogService));
 			_dataService = dataService ?? throw new ArgumentNullException(nameof(dataService));
-
+			_notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
+			_photoPicker = photoPicker;
 			refresh();
 		}
 
@@ -78,15 +80,43 @@ namespace NeighborThrift4.ViewModels
 			set { SetProperty(ref obj1, value); }
 		}
 
+		private Int64 number;
+		public Int64 Number
+		{
+			get => number;
+			set { SetProperty(ref number, value); }
+		}
+
+
 		private Command navigate;
 		readonly IPageDialogService _pageDialogService;
 		readonly IDataService _dataService;
+		readonly INotificationService _notificationService;
+		readonly IPhotoPickerService _photoPicker;
+		private Command sendNotification;
+		public Command SendNotification => sendNotification ?? (sendNotification = new Command(() =>
+		{
+			NumbersNotified = _notificationService.Notify(numArray.ToArray(), "Message to Send");
 
+		}));
+
+		private Collection<Int64> numArray = new Collection<long>();
+
+
+		private Command addNumber;
+		public Command AddNumber => addNumber ?? (addNumber = new Command(() =>
+		{
+			numArray.Add(Number);
+
+		}));
 		public Command Navigate => navigate ?? (navigate = new Command(async () =>
 		{
+			var photoStream = await _photoPicker.GetImageStreamAsync();
 			NavigationParameters parameters = new NavigationParameters();
 			parameters.Add("text", Obj1);
 			await TestableNavigation.TestableNavigateAsync(NavigationService, SelectedDestination, parameters, false, true).ConfigureAwait(false);
 		}));
+
+		public int NumbersNotified { get; private set; }
 	}
 }
