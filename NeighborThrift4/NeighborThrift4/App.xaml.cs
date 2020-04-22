@@ -22,13 +22,14 @@ namespace NeighborThrift4
 
         protected override async void OnInitialized()
         {
-            InitializeComponent();
+            //InitializeComponent();
 
-            await NavigationService.NavigateAsync("NavigationPage/MainPage");
+            NavigationService.NavigateAsync(nameof(MenuPage) + "/" + nameof(NavigationPage) + "/" + nameof(MainPage));
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterForNavigation<MenuPage>();
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<DetailPage, DetailPageViewModel>();

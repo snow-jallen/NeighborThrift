@@ -16,8 +16,8 @@ namespace NeighborThrift4.Droid
 		internal static MainActivity Instance { get; private set; }
 		protected override void OnCreate(Bundle bundle)
         {
-            TabLayoutResource = Resource.Layout.Tabbar;
-            ToolbarResource = Resource.Layout.Toolbar;
+            //TabLayoutResource = Resource.Layout.Tabbar;
+            //ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(bundle);
 

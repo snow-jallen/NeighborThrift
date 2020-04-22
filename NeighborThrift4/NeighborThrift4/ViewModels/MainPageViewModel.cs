@@ -35,7 +35,7 @@ namespace NeighborThrift4.ViewModels
 
 		public override async void OnNavigatedTo(INavigationParameters parameters)
 		{
-			if(parameters["action"] == "go back" && parameters["previousPage"] != null)
+			if(parameters != null && parameters["action"] != null && parameters["action"].ToString() == "go back" && parameters["previousPage"] != null)
 			{
 				if (await _pageDialogService.DisplayAlertAsync("You're back?!", "I just barely sent you away and here you are back again.\nDo you want to stay or go back?", "Bounce me back!", "Stay here.  I'm tired.").ConfigureAwait(true))
 				{
@@ -111,7 +111,7 @@ namespace NeighborThrift4.ViewModels
 		}));
 		public Command Navigate => navigate ?? (navigate = new Command(async () =>
 		{
-			var photoStream = await _photoPicker.GetImageStreamAsync();
+			//var photoStream = await _photoPicker.GetImageStreamAsync();
 			NavigationParameters parameters = new NavigationParameters();
 			parameters.Add("text", Obj1);
 			await TestableNavigation.TestableNavigateAsync(NavigationService, SelectedDestination, parameters, false, true).ConfigureAwait(false);
